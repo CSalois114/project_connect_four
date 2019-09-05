@@ -1,20 +1,10 @@
 class Node
-  attr_accessor :up, :down, :left, :right, :left_up, :right_up, :left_down, :right_down, :symbol
+  attr_accessor :symbol
   attr_reader :coords
   def initialize(coords)
     @coords = coords
     @symbol = nil
-
-    @up =         [@coords[0]    , @coords[1] + 1]
-    @down =       [@coords[0]    , @coords[1] - 1]
-    @left =       [@coords[0] - 1, @coords[1]    ]
-    @right =      [@coords[0] + 1, @coords[1]    ]
-    @left_up =    [@coords[0] - 1, @coords[1] + 1]
-    @right_up =   [@coords[0] + 1, @coords[1] + 1]  
-    @left_down =  [@coords[0] - 1, @coords[1] - 1]
-    @right_down = [@coords[0] + 1, @coords[1] - 1]
   end
-
 end
 
 class Board 
@@ -37,7 +27,7 @@ class Board
   def play(colomn, symbol)
     node = @nodes[[colomn, 1]]
     while node.symbol
-      node = @nodes[node.up]
+      node = @nodes[offset_coords(node.coords, [0, 1])]
       break if !node 
     end
     node.symbol = symbol if node
@@ -46,29 +36,37 @@ class Board
 
   def winner?(node)
     return false unless node.symbol 
-    [ get_line_length(node){|node| [self.nodes[node.up], self.nodes[node.down]] }, 
-      get_line_length(node){|node| [self.nodes[node.left], self.nodes[node.right]] },
-      get_line_length(node){|node| [self.nodes[node.left_up], self.nodes[node.right_down]] },
-      get_line_length(node){|node| [self.nodes[node.left_down], self.nodes[node.right_up]] }
+    [ get_line_length(node, [[ 0,  1], [0, -1]]), 
+      get_line_length(node, [[-1,  0], [1,  0]]),
+      get_line_length(node, [[-1,  1], [1, -1]]),
+      get_line_length(node, [[-1, -1], [1,  1]])
       ].any? {|line_length| line_length >= 4 }
   end 
 
   private 
 
-  def get_line_length(node)
+  def get_line_length(node, offsets)
     length = 1
-    current_node = node
-    while yield(current_node)[0]
-      current_node = yield(current_node)[0]
-      current_node.symbol == node.symbol ? length += 1 : break
-    end
-    current_node = node
-    while yield(current_node)[1]
-      current_node = yield(current_node)[1]
-      current_node.symbol == node.symbol ? length += 1 : break
+    offsets.each do |offset|
+      current_node = node
+      # while the next node in offset direction exists, add 1 to line length if same symbol
+      while @nodes[offset_coords(current_node.coords, offset)]
+        current_node = @nodes[offset_coords(current_node.coords, offset)]
+        current_node.symbol == node.symbol ? length += 1 : break
+      end
     end
     length
   end
+
+  def offset_coords(node_coords, offset)
+    [node_coords[0] + offset[0], node_coords[1] + offset[1]]
+  end
 end
 
-
+board = Board.new
+board.play(3, :x)
+board.play(3, :x)
+board.play(3, :x)
+board.play(3, :x)
+board.display
+p board.winner?(board.nodes[[3,1]])
