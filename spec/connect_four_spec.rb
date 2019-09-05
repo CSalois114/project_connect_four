@@ -8,81 +8,23 @@ describe Node do
     end
   end
 
-  describe "#winner?" do
-    context "returns true if the node is part of a winning connect four line" do
-      it "works vertically" do
-        board = Board.new
-        node = board.nodes[[1, 1]]
-        current_node = node
-        4.times do
-          current_node.symbol = :x
-          current_node = current_node.up
-        end
-
-        expect(node.winner?).to              be true
-        expect(node.up.winner?).to           be true
-        expect(node.up.up.winner?).to        be true
-        expect(node.up.up.up.winner?).to     be true
-
-        expect(node.up.up.up.up.winner?).to  be false
-      end
-
-      it "works horizontally" do
-        board = Board.new
-        node = board.nodes[[1, 1]]
-        current_node = node
-        4.times do
-          current_node.symbol = :o
-          current_node = current_node.right
-        end
-
-        expect(node.winner?).to                          be true
-        expect(node.right.winner?).to                    be true
-        expect(node.right.right.winner?).to              be true
-        expect(node.right.right.right.winner?).to        be true
-
-        expect(node.right.right.right.right.winner?).to  be false
-      end
-
-      it "works diagonally" do
-        board = Board.new
-        node = board.nodes[[1, 1]]
-        current_node = node
-        4.times do
-          current_node.symbol = :o
-          current_node = current_node.right_up
-        end
-
-        expect(node.winner?).to                                      be true
-        expect(node.right_up.winner?).to                             be true
-        expect(node.right_up.right_up.winner?).to                    be true
-        expect(node.right_up.right_up.right_up.winner?).to           be true
-
-        expect(node.right_up.right_up.right_up.right_up.winner?).to  be false
-      end
+  describe "directional instance variables" do
+    it "sets all the directions to proper coordinates" do
+      node =                  Node.new([2, 2])
+      expect(node.up).to           eql([2, 3]) 
+      expect(node.down).to         eql([2, 1])
+      expect(node.left).to         eql([1, 2])
+      expect(node.right).to        eql([3, 2]) 
+      expect(node.left_up).to      eql([1, 3]) 
+      expect(node.right_up).to     eql([3, 3]) 
+      expect(node.left_down).to    eql([1, 1]) 
+      expect(node.right_down).to   eql([3, 1]) 
     end
   end
-
 end
 
 describe Board do
-  describe "#propagate_node_children" do
-    it "sets all the children in the node tree to allow navigating by children" do
-      board = Board.new
-      node =                           board.nodes[[2,2]]
-      expect(node.up).to           eql(board.nodes[[2, 3]]) 
-      expect(node.down).to         eql(board.nodes[[2, 1]])
-      expect(node.left).to         eql(board.nodes[[1, 2]])
-      expect(node.right).to        eql(board.nodes[[3, 2]]) 
-
-      expect(node.left_up).to      eql(board.nodes[[1, 3]]) 
-      expect(node.right_up).to     eql(board.nodes[[3, 3]]) 
-      expect(node.left_down).to    eql(board.nodes[[1, 1]]) 
-      expect(node.right_down).to   eql(board.nodes[[3, 1]]) 
- 
-      
-    end
-  end
+  
 
   describe "@nodes" do
     it "contains the nodes in a hash with the coordinates as the keys" do
