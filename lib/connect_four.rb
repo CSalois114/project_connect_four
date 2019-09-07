@@ -93,9 +93,5 @@ end
 
 
 
-
-
-board = Board.new
-board.start_game
   
     

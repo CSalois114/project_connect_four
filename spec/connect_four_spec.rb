@@ -22,13 +22,13 @@ describe Board do
     end
   end
 
-  describe "#play(colomn, symbol)" do
+  describe "#take_turn(colomn, symbol)" do
     it "plays the symbol given in the bottom most available spot in colomn and returns that node" do
       board = Board.new
-      expect(board.play(3, :x)).to           eql(board.nodes[[3, 1]])
+      expect(board.take_turn(3, :x)).to           eql(board.nodes[[3, 1]])
       expect(board.nodes[[3, 1]].symbol).to  eql(:x)
 
-      expect(board.play(3, :o)).to           eql(board.nodes[[3, 2]])
+      expect(board.take_turn(3, :o)).to           eql(board.nodes[[3, 2]])
       expect(board.nodes[[3,2]].symbol).to   eql(:o)
     end
   end
