@@ -15,6 +15,24 @@ class Board
     (1..7).each {|x| (1..6).each {|y| @nodes[[x,y]] = Node.new([x,y])}}
   end
 
+  def start_game
+    last_played = nil
+    until nodes.values.all? {|node| node.symbol}
+      [:x, :o].each do |player_symbol|
+        display
+        puts "Player #{player_symbol}, enter the colomn number where"
+        puts "you would like to place your next piece."
+        colomn = get_valid_colomn(gets.chomp.to_i)
+        last_played = take_turn(colomn, player_symbol)
+        break if winner?(last_played)
+      end
+      break if winner?(last_played)
+    end
+    display
+    puts winner?(last_played) ? "Player #{last_played.symbol} wins!" : "Tie Game"
+  end
+  
+
   def display
     system("clear") || system("cls")
     puts " 1 2 3 4 5 6 7"
@@ -24,7 +42,7 @@ class Board
     puts " 1 2 3 4 5 6 7 "
   end
 
-  def play(colomn, symbol)
+  def take_turn(colomn, symbol)
     node = @nodes[[colomn, 1]]
     while node.symbol
       node = @nodes[offset_coords(node.coords, [0, 1])]
@@ -42,6 +60,7 @@ class Board
       get_line_length(node, [[-1, -1], [1,  1]])
       ].any? {|line_length| line_length >= 4 }
   end 
+
 
   private 
 
@@ -61,12 +80,22 @@ class Board
   def offset_coords(node_coords, offset)
     [node_coords[0] + offset[0], node_coords[1] + offset[1]]
   end
+
+  def get_valid_colomn(entry) 
+    until entry <= 7 && entry >= 1 && !@nodes[[entry, 6]].symbol 
+      puts "Invalid entry."
+      puts "Be sure to enter a colomn that is not yet full."
+      entry = gets.chomp.to_i
+    end
+    entry
+  end
 end
 
+
+
+
+
 board = Board.new
-board.play(3, :x)
-board.play(3, :x)
-board.play(3, :x)
-board.play(3, :x)
-board.display
-p board.winner?(board.nodes[[3,1]])
+board.start_game
+  
+    
