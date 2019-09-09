@@ -50,34 +50,6 @@ describe Board do
     end
   end
 
-  describe "#display" do
-    it "displays the current board" do
-      allow($stdout).to receive(:write)
-      board = Board.new
-      3.times {board.set_lowest_empty_node_symbol(1, :X)}
-      2.times {board.set_lowest_empty_node_symbol(5, :O)}
-
-      expect{board.display}.to output(
-        "        CONNECT  FOUR\n"         +
-        "  1   2   3   4   5   6   7\n"   +
-        "+---+---+---+---+---+---+---+\n" +
-        "|   |   |   |   |   |   |   |\n" +
-        "+---+---+---+---+---+---+---+\n" +
-        "|   |   |   |   |   |   |   |\n" +
-        "+---+---+---+---+---+---+---+\n" +
-        "|   |   |   |   |   |   |   |\n" +
-        "+---+---+---+---+---+---+---+\n" +
-        "| X |   |   |   |   |   |   |\n" +
-        "+---+---+---+---+---+---+---+\n" +
-        "| X |   |   |   | O |   |   |\n" +
-        "+---+---+---+---+---+---+---+\n" +
-        "| X |   |   |   | O |   |   |\n" +
-        "+---+---+---+---+---+---+---+\n" +
-        "  1   2   3   4   5   6   7\n"
-      ).to_stdout
-    end
-  end
-
 
 
   describe "#winner?" do
@@ -119,6 +91,7 @@ describe Board do
       end
     end
   end
+
 end
 
 
