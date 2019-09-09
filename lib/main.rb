@@ -11,7 +11,7 @@ def take_turn(player_symbol)
   
   #asks player until an existing, unfilled column is given
   column = @board.get_valid_column(gets.chomp.to_i) 
-  #set_lowest_empty_node_symbol returns the node whos symbol it set, making it the last_played 
+  #set_lowest_empty_node_symbol returns the node whos symbol it set, making it the last_played node
   @board.last_played = @board.set_lowest_empty_node_symbol(column, player_symbol)
 end
 

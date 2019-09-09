@@ -55,6 +55,8 @@ class Board
 
   def get_line_length(node, offsets)
     length = 1
+    #offsets here being the coordinate difference between the starting node and the two directions to test
+    #for a horizontal line length test, offests would be [ [-1, 0], [1, 0] ]
     offsets.each do |offset|
       current_node = node
       #while the next node in offset direction exists, add 1 to line length if its the same symbol
