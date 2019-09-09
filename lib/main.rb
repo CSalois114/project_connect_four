@@ -1,8 +1,8 @@
 require_relative "board"
 
 @board = Board.new
-@player1_symbol = :x
-@player2_symbol = :o
+@player1_symbol = :X
+@player2_symbol = :O
 
 def take_turn(player_symbol)
   @board.display

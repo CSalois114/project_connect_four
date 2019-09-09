@@ -54,18 +54,26 @@ describe Board do
     it "displays the current board" do
       allow($stdout).to receive(:write)
       board = Board.new
-      3.times {board.set_lowest_empty_node_symbol(1, :x)}
-      2.times {board.set_lowest_empty_node_symbol(5, :o)}
+      3.times {board.set_lowest_empty_node_symbol(1, :X)}
+      2.times {board.set_lowest_empty_node_symbol(5, :O)}
 
       expect{board.display}.to output(
-        " 1 2 3 4 5 6 7\n"  +
-        "| | | | | | | |\n" +
-        "| | | | | | | |\n" +
-        "| | | | | | | |\n" +
-        "|x| | | | | | |\n" +
-        "|x| | | |o| | |\n" +
-        "|x| | | |o| | |\n" +
-        " 1 2 3 4 5 6 7\n"
+        "        CONNECT  FOUR\n"         +
+        "  1   2   3   4   5   6   7\n"   +
+        "+---+---+---+---+---+---+---+\n" +
+        "|   |   |   |   |   |   |   |\n" +
+        "+---+---+---+---+---+---+---+\n" +
+        "|   |   |   |   |   |   |   |\n" +
+        "+---+---+---+---+---+---+---+\n" +
+        "|   |   |   |   |   |   |   |\n" +
+        "+---+---+---+---+---+---+---+\n" +
+        "| X |   |   |   |   |   |   |\n" +
+        "+---+---+---+---+---+---+---+\n" +
+        "| X |   |   |   | O |   |   |\n" +
+        "+---+---+---+---+---+---+---+\n" +
+        "| X |   |   |   | O |   |   |\n" +
+        "+---+---+---+---+---+---+---+\n" +
+        "  1   2   3   4   5   6   7\n"
       ).to_stdout
     end
   end

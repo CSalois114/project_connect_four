@@ -12,11 +12,14 @@ class Board
 
   def display
     system("clear") || system("cls")
-    puts " 1 2 3 4 5 6 7"
+    puts "        CONNECT  FOUR"
+    puts "  1   2   3   4   5   6   7"
+    puts "+---+---+---+---+---+---+---+"
     (1..6).reverse_each do |y|  #puts each row of the board
-      puts "|#{(1..7).map {|x| @nodes[[x,y]].symbol ? @nodes[[x,y]].symbol : " "}.join("|")}|"
+      puts "| #{(1..7).map {|x| @nodes[[x,y]].symbol ? @nodes[[x,y]].symbol : " "}.join(" | ")} |"
+      puts "+---+---+---+---+---+---+---+"
     end
-    puts " 1 2 3 4 5 6 7"
+    puts "  1   2   3   4   5   6   7"
   end
 
   def set_lowest_empty_node_symbol(column, symbol)
